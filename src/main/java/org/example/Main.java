@@ -2,7 +2,6 @@ package org.example;
 
 import java.util.*;
 
-
 public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -18,6 +17,8 @@ public class Main {
         List<String> wrongPasswords = new ArrayList<>();
         List<String> correctPasswords = new ArrayList<>();
 
+        int changeCount = 0;
+        String currentPassword = "";
 
         int birthy = Integer.parseInt(birth);
         if (birthy <= 2023) {
@@ -25,78 +26,86 @@ public class Main {
             StringBuilder w = new StringBuilder();
             w.append("Welcome").append(" ").append(name).append(" ").append(surname);
             System.out.println(w);
-            System.out.println("Your password has expired for 3 months. \nPlease set a new 6-digit banking password");
-            String newPassword = scan.nextLine();
-
-            passwordss.add(newPassword);
-            correctPasswords.add(newPassword);
-
-            if (newPassword.length() != 6) {
-                System.out.println("Your new password must contain 6 digits");
-            }
-            else{
-                if (newPassword.contains(birth)) {
-                    System.out.println("Your new password must be different from your birth year");
+            
+            while(changeCount < 10) {
+                System.out.println("Your password has expired for 3 months. \nPlease set a new 6-digit banking password");
+                if (currentPassword == null) {
+                    System.out.println("Please enter a new password");
                 }
                 else {
-                    if (containNumbers(newPassword)){
-                        System.out.println("Your new password must not contain consecutive numbers");
+                    System.out.println("Please enter a new password");
+                }
+                String newPassword = scan.nextLine();
 
-                    }
-                    else{
-                        System.out.println("Your new password is successful ");
-                        while(true) {
-                            int maxAttempts = 3;
-                            int remainingAttempts = maxAttempts;
-                            System.out.println("Would you like to change your password again");
-                            String pass = scan.nextLine();
-                            while(true){
-                                if (pass.equals("E")) {
-                                    System.out.println("Enter your last password");
-                                    String tryPassword = scan.nextLine();
-                                    while (!newPassword.equalsIgnoreCase(tryPassword)) {
-                                        remainingAttempts--;
-                                        if (remainingAttempts == 0) {
-                                            System.out.println("Your account is blocked, please call customer service");
-                                            printPasswords(wrongPasswords, correctPasswords);
-                                            return;
+                passwordss.add(newPassword);
+                correctPasswords.add(newPassword);
+
+                if (newPassword.length() != 6) {
+                    System.out.println("Your new password must contain 6 digits");
+                } else {
+                    if (newPassword.contains(birth)) {
+                        System.out.println("Your new password must be different from your birth year");
+                    } else {
+                        if (containNumbers(newPassword)) {
+                            System.out.println("Your new password must not contain consecutive numbers");
+
+                        } else {
+                            System.out.println("Your new password is successful ");
+                            while (true) {
+                                int maxAttempts = 3;
+                                int remainingAttempts = maxAttempts;
+                                System.out.println("Would you like to change your password again");
+                                String pass = scan.nextLine();
+                                while (true) {
+                                    if (pass.equals("E")) {
+                                        System.out.println("Enter your last password");
+                                        String tryPassword = scan.nextLine();
+
+                                        while (!newPassword.equalsIgnoreCase(tryPassword)) {
+                                            remainingAttempts--;
+                                            if (remainingAttempts == 0) {
+                                                System.out.println("Your account is blocked, please call customer service");
+                                                printPasswords(wrongPasswords, correctPasswords);
+                                                return;
+                                            }
+                                            System.out.println("Password does not match, please try again");
+                                            wrongPasswords.add(tryPassword);
+                                            tryPassword = scan.nextLine();
                                         }
-                                        System.out.println("Password does not match, please try again");
-                                        wrongPasswords.add(tryPassword);
-                                        tryPassword = scan.nextLine();
+                                        currentPassword = tryPassword;
+
+                                        System.out.println("Please enter your new password");
+                                        String lastPassword = scan.nextLine();
+
+                                        while (lastPassword.equals(tryPassword) || passwordss.contains(lastPassword)) {
+                                            if (tryPassword.equals(lastPassword)) {
+                                                System.out.println("The new password cannot be the same as the password. \nPlease enter your new password");
+                                            } else {
+                                                System.out.println("The new password cannot be the same as one of the previous 5 password. \nPlease enter your new password");
+                                            }
+                                            lastPassword = scan.nextLine();
+                                        }
+                                        currentPassword = lastPassword;
+                                        passwordss.add(lastPassword);
+                                        correctPasswords.add(lastPassword);
+
+                                        break;
+                                    } else {
+                                        System.out.println("Have a nice day");
+                                        printPasswords(wrongPasswords, correctPasswords);
+                                        return;
                                     }
-                                    System.out.println("Please enter your new password");
-                                    String lastPassword = scan.nextLine();
 
-                                    while (lastPassword.equals(tryPassword) || passwordss.contains(lastPassword)) {
-                                        if(tryPassword.equals(lastPassword)) {
-                                            System.out.println("The new password cannot be the same as the password. \nPlease enter your new password");
-                                        }
-                                        else{
-                                            System.out.println("The new password cannot be the same as one of the previous 5 password. \nPlease enter your new password");
-                                        }
-                                        lastPassword = scan.nextLine();
-                                    }
-
-                                    passwordss.add(lastPassword);
-                                    correctPasswords.add(lastPassword);
-
-                                    break;
-                                }
-                                else {
-                                    System.out.println("Have a nice day");
-                                    printPasswords(wrongPasswords, correctPasswords);
-                                    return;
                                 }
 
                             }
-
                         }
                     }
                 }
-            }
-        }
 
+            }
+            changeCount++;
+        }
         else{
             System.out.println("Failed to log in");
         }
