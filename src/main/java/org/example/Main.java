@@ -51,6 +51,7 @@ public class Main {
 
                         } else {
                             System.out.println("Your new password is successful ");
+                            currentPassword= newPassword;
                             while (true) {
                                 int maxAttempts = 3;
                                 int remainingAttempts = maxAttempts;
@@ -61,7 +62,7 @@ public class Main {
                                         System.out.println("Enter your last password");
                                         String tryPassword = scan.nextLine();
 
-                                        while (!newPassword.equalsIgnoreCase(tryPassword)) {
+                                        while (!currentPassword.equalsIgnoreCase(tryPassword)) {
                                             remainingAttempts--;
                                             if (remainingAttempts == 0) {
                                                 System.out.println("Your account is blocked, please call customer service");
