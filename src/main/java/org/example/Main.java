@@ -16,6 +16,7 @@ public class Main {
         Set<String> passwordss = new HashSet<>();
         List<String> wrongPasswords = new ArrayList<>();
         List<String> correctPasswords = new ArrayList<>();
+        Deque<String> recentpass = new ArrayDeque<>();
 
         int changeCount = 0;
         String currentPassword = "";
@@ -27,7 +28,7 @@ public class Main {
             w.append("Welcome").append(" ").append(name).append(" ").append(surname);
             System.out.println(w);
             
-            while(changeCount < 10) {
+            while(changeCount < 5) {
                 System.out.println("Your password has expired for 3 months. \nPlease set a new 6-digit banking password");
                 if (currentPassword == null) {
                     System.out.println("Please enter a new password");
@@ -51,7 +52,16 @@ public class Main {
 
                         } else {
                             System.out.println("Your new password is successful ");
-                            currentPassword= newPassword;
+                            currentPassword = newPassword;
+                            passwordss.remove(currentPassword);
+                            correctPasswords.add(currentPassword);
+                            recentpass.addLast(currentPassword);
+
+                            if (recentpass.size() == 5) {
+                                recentpass.removeFirst();
+                            }
+                            changeCount++;
+
                             while (true) {
                                 int maxAttempts = 3;
                                 int remainingAttempts = maxAttempts;
@@ -73,6 +83,10 @@ public class Main {
                                             wrongPasswords.add(tryPassword);
                                             tryPassword = scan.nextLine();
                                         }
+                                        if(!recentpass.contains(tryPassword)) {
+                                            System.out.println("Password used recently, please try again");
+                                        }
+
                                         currentPassword = tryPassword;
 
                                         System.out.println("Please enter your new password");
@@ -84,14 +98,19 @@ public class Main {
                                             } else {
                                                 System.out.println("The new password cannot be the same as one of the previous 5 password. \nPlease enter your new password");
                                             }
+                                            System.out.println("\nPlease enter your new password");
                                             lastPassword = scan.nextLine();
                                         }
                                         currentPassword = lastPassword;
                                         passwordss.add(lastPassword);
                                         correctPasswords.add(lastPassword);
 
+                                        if(recentpass.size() == 5) {
+                                           recentpass.removeFirst();
+                                        }
                                         break;
-                                    } else {
+                                    }
+                                    else {
                                         System.out.println("Have a nice day");
                                         printPasswords(wrongPasswords, correctPasswords);
                                         return;
