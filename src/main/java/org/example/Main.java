@@ -83,9 +83,7 @@ public class Main {
                                             wrongPasswords.add(tryPassword);
                                             tryPassword = scan.nextLine();
                                         }
-                                        if(!recentpass.contains(tryPassword)) {
-                                            System.out.println("Password used recently, please try again");
-                                        }
+
 
                                         currentPassword = tryPassword;
 
@@ -98,7 +96,7 @@ public class Main {
                                             } else {
                                                 System.out.println("The new password cannot be the same as one of the previous 5 password. \nPlease enter your new password");
                                             }
-                                            System.out.println("\nPlease enter your new password");
+
                                             lastPassword = scan.nextLine();
                                         }
                                         currentPassword = lastPassword;
