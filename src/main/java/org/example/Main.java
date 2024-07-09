@@ -47,6 +47,7 @@ public class Main {
                         break;
                     } else {
                         System.out.println("Your password is not valid. Please enter your password again!");
+                        wrongPasswords.add(currentPassword);
                         passwordTryCount++;
                         if (passwordTryCount == MAX_PASSWORD_ATTEMPT) {
                             System.out.println("Your password has been blocked due to 3 incorrect password attempts.");
