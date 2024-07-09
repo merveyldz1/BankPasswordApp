@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Main {
     private static final int MAX_ATTEMPTS = 3;
+    private static final int MAX_PASS_LENGTH = 6;
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Please enter your name:");
@@ -36,7 +37,7 @@ public class Main {
                 passwords.add(newPassword);
                 correctPasswords.add(newPassword);
 
-                if (newPassword.length() != 6) {
+                if (newPassword.length() != MAX_PASS_LENGTH) {
                     System.out.println("Your new password must contain 6 digits");
                 } else if (newPassword.contains(birth)) {
                     System.out.println("Your new password must be different from your birth year");
